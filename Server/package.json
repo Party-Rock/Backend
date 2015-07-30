@@ -1,0 +1,31 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "description": "Server containing the API for the PartyRock App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Party-Rock/web.git"
+  },
+  "keywords": [
+    "Party",
+    "Rock",
+    "express",
+    "node",
+    "API"
+  ],
+  "author": "Tan Mamador",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Party-Rock/web/issues"
+  },
+  "dependencies": {
+    "express": "~4.0.0",
+    "mongoose": "~3.6.13",
+    "body-parser": "~1.0.1"
+},
+  "homepage": "https://github.com/Party-Rock/web#readme"
+}
