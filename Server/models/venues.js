@@ -1,6 +1,6 @@
-var mongoose = require ('mongoose');
+var mongoose = require('mongoose');
 
-var venueSchema = mongoose.Schema ({
+var venueSchema = mongoose.Schema({
   name: String,
   position: {lat: Number, long: Number},
   imageURL: Array,
@@ -12,4 +12,4 @@ var venueSchema = mongoose.Schema ({
 });
 
 
-module.exports = mongoose.model('Venues',venueSchema);
+module.exports = mongoose.model('Venues', venueSchema);

@@ -1,3 +1,5 @@
+/*jslint node: true, indent: 2,nomen:true */
+'use strict';
 // BASE SETUP
 // =============================================================================
 var express = require('express'),
@@ -19,7 +21,7 @@ mongoose.connect(mongoURL);
 // ROUTES
 // =============================================================================
 
-router.use(function(req, res, next) {
+router.use(function (next) {
   console.log('La madre entró a las rutas');
   next();
 });
