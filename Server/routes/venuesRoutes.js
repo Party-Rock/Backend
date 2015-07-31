@@ -41,5 +41,22 @@ router.get('/', function (req, res) {
   });
 });
 
+router.get('/:_id', function (req, res) {
+  VENUE
+    .findOne(
+      { _id: req.params._id },
+      function (err, user) {
+        if (err) {
+          return console.error(err);
+        }
+        if (user) {
+          res.send(user);
+        } else {
+          var userMessage = req.params._id + 'does not exists.';
+          res.send({'status': '404 not found', 'message': userMessage});
+        }
+      }
+    );
+});
 
 module.exports = router;
