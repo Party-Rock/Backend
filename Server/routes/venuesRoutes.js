@@ -59,4 +59,28 @@ router.get('/:_id', function (req, res) {
     );
 });
 
+router.delete('/:_id', function (req, res) {
+  VENUE
+    .remove(
+      { _id: req.params._id },
+      function (err, user) {
+        if (err) {
+          return console.error(err);
+        }
+        if (user.result === 0) {
+          res.send({
+            success: true,
+            message: 'No user with that ID found'
+          });
+        } else {
+          console.log("deleted");
+          res.send({
+            success: true,
+            message: 'Users with ID deleted: ' + req.params._id
+          });
+        }
+      }
+    );
+});
+
 module.exports = router;
