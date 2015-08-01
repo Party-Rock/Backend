@@ -23,9 +23,10 @@
     "url": "https://github.com/Party-Rock/web/issues"
   },
   "dependencies": {
+    "body-parser": "~1.0.1",
     "express": "~4.0.0",
-    "mongoose": "~3.6.13",
-    "body-parser": "~1.0.1"
+    "express-validation": "^0.4.3",
+    "mongoose": "~3.6.13"
   },
   "homepage": "https://github.com/Party-Rock/web#readme",
   "devDependencies": {

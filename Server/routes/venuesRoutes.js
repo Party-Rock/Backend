@@ -1,11 +1,17 @@
 /*jslint node: true, indent: 2,nomen:true */
 'use strict';
-
 var express = require('express'),
   router = express.Router(),
-  VENUE = require('../models/venues');
+  VENUE = require('../models/venues'),
+  expressJoi = require('express-joi'),
+   validateVenue = {
 
-router.post('/', function (req, res) {
+      name: expressJoi.Joi.types.String().min(5).max(30).required(),
+      size: expressJoi.Joi.types.Number().positive().required(),
+      price: expressJoi.Joi.types.Number().positive().required(),
+  };
+
+router.post('/', expressJoi.joiValidate(validateVenue),function (req, res) {
   var venue = new VENUE({
     name: req.body.name,
     position: {
@@ -13,12 +19,13 @@ router.post('/', function (req, res) {
       long: req.body.long
     },
     imageURL: [],
-    size: req.body.size,
-    price: req.body.size,
+    size: req.body.size || 0,
+    price: req.body.size || 0,
     features: [],
     ratingAverage: 0,
     rating: []
   });
+
   venue.save(function (err) {
     if (err) {
       return console.error(err);
@@ -26,26 +33,30 @@ router.post('/', function (req, res) {
     res.status(200)
       .send({
         saved: true,
-        _id: venue.id
+        _id: venue.id,
+        object: venue
       });
   });
 });
 
 router.get('/', function (req, res) {
-  VENUE.find(function (err, venues) {
-    if (err) {
-      return console.error(err);
-    }
-    console.log(req.params);
-    res.send(venues);
-  });
+  VENUE.find(
+    req.query,
+    function (err, venues) {
+      if (err) {
+        return console.error(err);
+      }
+      console.log(req.params);
+      res.send(venues);
+    });
 });
 
 router.get('/:_id', function (req, res) {
   VENUE
-    .findOne(
-      { _id: req.params._id },
-      function (err, user) {
+    .findOne({
+        _id: req.params._id
+      },
+      function(err, user) {
         if (err) {
           return console.error(err);
         }
@@ -53,34 +64,72 @@ router.get('/:_id', function (req, res) {
           res.send(user);
         } else {
           var userMessage = req.params._id + 'does not exists.';
-          res.send({'status': '404 not found', 'message': userMessage});
+          res.send({
+            'status': '404 not found',
+            'message': userMessage
+          });
         }
       }
     );
 });
 
-router.delete('/:_id', function (req, res) {
-  VENUE
-    .remove(
-      { _id: req.params._id },
-      function (err, user) {
-        if (err) {
-          return console.error(err);
-        }
-        if (user.result === 0) {
-          res.send({
-            success: true,
-            message: 'No user with that ID found'
-          });
-        } else {
-          console.log("deleted");
-          res.send({
-            success: true,
-            message: 'Users with ID deleted: ' + req.params._id
-          });
-        }
+router.delete('/:_id', function(req, res) {
+  VENUE.remove({
+      _id: req.params._id
+    },
+    function(err, user) {
+      if (err) {
+        return console.error(err);
       }
-    );
+      if (user.result === 0) {
+        res.send({
+          success: true,
+          message: 'No user with that ID found'
+        });
+      } else {
+        res.send({
+          success: true,
+          message: 'Users with ID deleted: ' + req.params._id
+        });
+      }
+    }
+  );
+});
+
+router.delete('/', function (req, res) {
+  VENUE.remove(function(err) {
+    if (err) {
+      return console.error(err);
+    }
+    console.log(req.params);
+    res.send({
+      succes: true,
+      message: 'Everything was deleted'
+    });
+  });
+});
+
+router.patch('/:_id', function (req, res) {
+  VENUE.update({
+      _id: req.params._id
+    },
+    function(err, user) {
+      if (err) {
+        return console.error(err);
+      }
+      if (user.result === 0) {
+        res.send({
+          success: true,
+          message: 'No user with that ID found'
+        });
+      } else {
+        res.send({
+          success: true,
+          message: 'Users with ID UPDATED: ' + req.params._id
+        });
+      }
+    }
+  );
 });
 
 module.exports = router;

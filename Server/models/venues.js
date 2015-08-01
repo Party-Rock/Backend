@@ -2,7 +2,10 @@ var mongoose = require('mongoose');
 
 var venueSchema = mongoose.Schema({
   name: String,
-  position: {lat: Number, long: Number},
+  position: {
+    lat: Number,
+    long: Number
+  },
   imageURL: Array,
   size: Number,
   price: Number,
