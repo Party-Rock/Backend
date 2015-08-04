@@ -10,7 +10,7 @@ var express = require('express'),
     size: expressJoi.Joi.types.Number().positive().required(),
     price: expressJoi.Joi.types.Number().positive().required()
   };
-router.patch('/feature/:id', function (req, res) {
+router.patch('/feature/:id', expressJoi.joiValidate({feature: expressJoi.Joi.types.String().required()}), function (req, res) {
 
   Venue
       .findByIdAndUpdate(req.path.substring(9),
@@ -39,6 +39,21 @@ router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.ty
       });
 });
 
+router.patch('/busyDate/:_id', expressJoi.joiValidate({busyDate : expressJoi.Joi.types.Date().required()}), function (req, res) {
+  console.log(req.path.substring(10));
+  Venue
+    .findByIdAndUpdate(req.path.substring(10),
+      {$push: {busyDate: req.body.busyDate}},
+      function (err, result) {
+        console.log(result);
+        if (err) {
+          console.error(err);
+          return res.status(404);
+        }
+        res.send(result);
+      });
+});
+
 
 router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
   var venue = new Venue({
@@ -51,6 +66,7 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
     size: req.body.size || 0,
     price: req.body.size || 0,
     features: [],
+    busyDate: [],
     ratingAverage: 0,
     rating: []
   });

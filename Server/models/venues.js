@@ -8,9 +8,10 @@ var venueSchema = mongoose.Schema({
     long: Number
   },
   imageURL: [String],
+  busyDate: [Date],
   size: Number,
   price: Number,
-  features: [{feature: String, option: Boolean, _id : false }],
+  features: [{feature: String, option: Boolean, _id: false }],
   ratingAverage: Number,
   rating: [{grade: Number, comment: String, userId: ObjectId}]
 });
