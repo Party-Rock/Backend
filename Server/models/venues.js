@@ -10,7 +10,7 @@ var venueSchema = mongoose.Schema({
   imageURL: [String],
   size: Number,
   price: Number,
-  features: [{feature:String,option: Boolean}],
+  features: [{feature:String,option: Boolean, _id : false }],
   ratingAverage: Number,
   rating: [{grade: Number, comment: String, userId: ObjectId}]
 });
