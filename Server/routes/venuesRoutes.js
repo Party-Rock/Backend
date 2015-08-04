@@ -2,7 +2,7 @@
 'use strict';
 var express = require('express'),
   router = express.Router(),
-  VENUE = require('../models/venues'),
+  Venue = require('../models/venues'),
   expressJoi = require('express-joi'),
    validateVenue = {
 
@@ -10,9 +10,39 @@ var express = require('express'),
       size: expressJoi.Joi.types.Number().positive().required(),
       price: expressJoi.Joi.types.Number().positive().required(),
   };
+  router.patch('/feature/:id', function ( req, res) {
+
+    Venue
+      .findByIdAndUpdate(req.path.substring(9),
+      {$push: {features : {feature: req.body.feature , option: req.body.option}}},
+      function(err, result) {
+        if (err) {
+          console.error(err);
+          return res.status(404);
+        } else {
+          res.send(result);
+        }
+      });
+  });
+
+  router.patch('/photo/:_id',expressJoi.joiValidate({imageURL : expressJoi.Joi.types.String().required()}) ,function(req, res) {
+    Venue
+    .findByIdAndUpdate(req.path.substring(7),
+    {$push: {imageURL: req.body.imageURL}},
+      function(err, result) {
+        console.log(result);
+        if (err) {
+          console.error(err);
+          return res.status(404);
+        } else {
+          res.send(result);
+        }
+      });
+  });
+
 
 router.post('/', expressJoi.joiValidate(validateVenue),function (req, res) {
-  var venue = new VENUE({
+  var venue = new Venue({
     name: req.body.name,
     position: {
       lat: req.body.lat,
@@ -25,7 +55,6 @@ router.post('/', expressJoi.joiValidate(validateVenue),function (req, res) {
     ratingAverage: 0,
     rating: []
   });
-
   venue.save(function (err) {
     if (err) {
       return console.error(err);
@@ -40,7 +69,7 @@ router.post('/', expressJoi.joiValidate(validateVenue),function (req, res) {
 });
 
 router.get('/', function (req, res) {
-  VENUE.find(
+  Venue.find(
     req.query,
     function (err, venues) {
       if (err) {
@@ -52,7 +81,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/:_id', function (req, res) {
-  VENUE
+  Venue
     .findOne({
         _id: req.params._id
       },
@@ -74,7 +103,7 @@ router.get('/:_id', function (req, res) {
 });
 
 router.delete('/:_id', function(req, res) {
-  VENUE.remove({
+  Venue.remove({
       _id: req.params._id
     },
     function(err, user) {
@@ -97,7 +126,7 @@ router.delete('/:_id', function(req, res) {
 });
 
 router.delete('/', function (req, res) {
-  VENUE.remove(function(err) {
+  Venue.remove(function(err) {
     if (err) {
       return console.error(err);
     }
@@ -110,7 +139,7 @@ router.delete('/', function (req, res) {
 });
 
 router.patch('/:_id', function (req, res) {
-  VENUE.update({
+  Venue.update({
       _id: req.params._id
     },
     function(err, user) {
