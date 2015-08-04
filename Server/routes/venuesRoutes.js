@@ -25,7 +25,21 @@ router.post('/', expressJoi.joiValidate(validateVenue),function (req, res) {
     ratingAverage: 0,
     rating: []
   });
-
+router.patch('/addPhoto/:id', function () {
+  console.log(req.path.substring(10));
+  VENUE
+    .findByIdAndUpdate(req.path.substring(10),
+    {$push: {imageURL : req.body.ImgURL}},
+    function(err, result) {
+      console.log(result);
+      if (err) {
+        console.error(err);
+        return res.status(404);
+      } else {
+        res.send(result);
+      }
+    });
+});
   venue.save(function (err) {
     if (err) {
       return console.error(err);

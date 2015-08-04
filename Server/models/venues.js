@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+ObjectId = mongoose.Schema.ObjectId;
 
 var venueSchema = mongoose.Schema({
   name: String,
@@ -6,12 +7,12 @@ var venueSchema = mongoose.Schema({
     lat: Number,
     long: Number
   },
-  imageURL: Array,
+  imageURL: [String],
   size: Number,
   price: Number,
-  features: Array,
+  features: [{feature:name,option: Boolean}],
   ratingAverage: Number,
-  rating: Array
+  rating: [{grade: Number, comment: String, userId: ObjectId}]
 });
 
 

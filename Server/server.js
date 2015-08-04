@@ -22,7 +22,6 @@ mongoose.connect(mongoURL);
 // =============================================================================
 
 router.use(function (next) {
-  console.log('La madre entró a las rutas');
   next();
 });
 
@@ -31,4 +30,4 @@ myRoutes(app);
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log('Hola ocioso, esta n puerto' + port);
