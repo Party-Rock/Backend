@@ -10,6 +10,36 @@ var express = require('express'),
       size: expressJoi.Joi.types.Number().positive().required(),
       price: expressJoi.Joi.types.Number().positive().required(),
   };
+  router.patch('/addFeature/:id', function ( req, res) {
+
+    VENUE
+      .findByIdAndUpdate(req.path.substring(12),
+      {$push: {features : {feature: req.body.feature , option: req.body.option}}},
+      function(err, result) {
+        if (err) {
+          console.error(err);
+          return res.status(404);
+        } else {
+          res.send(result);
+        }
+      });
+  });
+
+  router.patch('/addPhoto/:_id', function(req, res) {
+    VENUE
+    .findByIdAndUpdate(req.path.substring(10),
+    {$push: {imageURL: req.body.imageURL}},
+      function(err, result) {
+        console.log(result);
+        if (err) {
+          console.error(err);
+          return res.status(404);
+        } else {
+          res.send(result);
+        }
+      });
+  });
+
 
 router.post('/', expressJoi.joiValidate(validateVenue),function (req, res) {
   var venue = new VENUE({
@@ -25,21 +55,6 @@ router.post('/', expressJoi.joiValidate(validateVenue),function (req, res) {
     ratingAverage: 0,
     rating: []
   });
-router.patch('/addPhoto/:id', function () {
-  console.log(req.path.substring(10));
-  VENUE
-    .findByIdAndUpdate(req.path.substring(10),
-    {$push: {imageURL : req.body.ImgURL}},
-    function(err, result) {
-      console.log(result);
-      if (err) {
-        console.error(err);
-        return res.status(404);
-      } else {
-        res.send(result);
-      }
-    });
-});
   venue.save(function (err) {
     if (err) {
       return console.error(err);
