@@ -25,7 +25,7 @@ var express = require('express'),
       });
   });
 
-  router.patch('/addPhoto/:_id',expressJoi.joiValidate({imageURL: expressJoi.Joi.types.String.uri()}) ,function(req, res) {
+  router.patch('/addPhoto/:_id',expressJoi.joiValidate({imageURL : expressJoi.Joi.types.String().required()}) ,function(req, res) {
     VENUE
     .findByIdAndUpdate(req.path.substring(10),
     {$push: {imageURL: req.body.imageURL}},
