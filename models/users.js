@@ -2,7 +2,7 @@
 var mongoose = require('mongoose'),
   ObjectId = mongoose.Schema.ObjectId;
 
-var venueSchema = mongoose.Schema({
+var userSchema = mongoose.Schema({
     fname: String,
     lname: String,
     password: String,
@@ -13,4 +13,4 @@ var venueSchema = mongoose.Schema({
   });
 
 
-module.exports = mongoose.model('Venues', venueSchema);
+module.exports = mongoose.model('Users', userSchema);
