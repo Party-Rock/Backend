@@ -4,44 +4,41 @@ var express = require('express'),
   router = express.Router(),
   Venue = require('../models/venues'),
   expressJoi = require('express-joi'),
-   validateVenue = {
-
-      name: expressJoi.Joi.types.String().min(5).max(30).required(),
-      size: expressJoi.Joi.types.Number().positive().required(),
-      price: expressJoi.Joi.types.Number().positive().required(),
+  validateVenue = {
+    capacity: expressJoi.Joi.types.Number().positive().required(),
+    name: expressJoi.Joi.types.String().min(5).max(30).required(),
+    size: expressJoi.Joi.types.Number().positive().required(),
+    price: expressJoi.Joi.types.Number().positive().required(),
   };
-  router.patch('/feature/:id', function ( req, res) {
-
-    Venue
+router.patch('/feature/:id', function (req, res) {
+  Venue
       .findByIdAndUpdate(req.path.substring(9),
-      {$push: {features : {feature: req.body.feature , option: req.body.option}}},
-      function(err, result) {
+      {$push: {features: {feature: req.body.feature, option: req.body.option}}},
+      function (err, result) {
         if (err) {
           console.error(err);
           return res.status(404);
-        } else {
-          res.send(result);
         }
+        res.send(result);
       });
-  });
+});
 
-  router.patch('/photo/:_id',expressJoi.joiValidate({imageURL : expressJoi.Joi.types.String().required()}) ,function(req, res) {
-    Venue
+router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.types.String().required()}), function (req, res) {
+  Venue
     .findByIdAndUpdate(req.path.substring(7),
-    {$push: {imageURL: req.body.imageURL}},
-      function(err, result) {
+      {$push: {imageURL: req.body.imageURL}},
+      function (err, result) {
         console.log(result);
         if (err) {
           console.error(err);
           return res.status(404);
-        } else {
-          res.send(result);
         }
+        res.send(result);
       });
-  });
+});
 
 
-router.post('/', expressJoi.joiValidate(validateVenue),function (req, res) {
+router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
   var venue = new Venue({
     name: req.body.name,
     position: {
@@ -77,15 +74,16 @@ router.get('/', function (req, res) {
       }
       console.log(req.params);
       res.send(venues);
-    });
+    }
+  );
 });
 
 router.get('/:_id', function (req, res) {
   Venue
     .findOne({
-        _id: req.params._id
-      },
-      function(err, user) {
+      _id: req.params._id
+    },
+      function (err, user) {
         if (err) {
           return console.error(err);
         }
@@ -98,15 +96,14 @@ router.get('/:_id', function (req, res) {
             'message': userMessage
           });
         }
-      }
-    );
+      });
 });
 
-router.delete('/:_id', function(req, res) {
+router.delete('/:_id', function (req, res) {
   Venue.remove({
-      _id: req.params._id
-    },
-    function(err, user) {
+    _id: req.params._id
+  },
+    function (err, user) {
       if (err) {
         return console.error(err);
       }
@@ -121,12 +118,11 @@ router.delete('/:_id', function(req, res) {
           message: 'Users with ID deleted: ' + req.params._id
         });
       }
-    }
-  );
+    });
 });
 
 router.delete('/', function (req, res) {
-  Venue.remove(function(err) {
+  Venue.remove(function (err) {
     if (err) {
       return console.error(err);
     }
@@ -140,9 +136,9 @@ router.delete('/', function (req, res) {
 
 router.patch('/:_id', function (req, res) {
   Venue.update({
-      _id: req.params._id
-    },
-    function(err, user) {
+    _id: req.params._id
+  },
+    function (err, user) {
       if (err) {
         return console.error(err);
       }
@@ -157,8 +153,7 @@ router.patch('/:_id', function (req, res) {
           message: 'Users with ID UPDATED: ' + req.params._id
         });
       }
-    }
-  );
+    });
 });
 
 module.exports = router;
