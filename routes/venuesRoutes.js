@@ -10,6 +10,7 @@ var express = require('express'),
     size: expressJoi.Joi.types.Number().positive().required(),
     price: expressJoi.Joi.types.Number().positive().required(),
   };
+
 router.patch('/feature/:id', function (req, res) {
   Venue
       .findByIdAndUpdate(req.path.substring(9),
