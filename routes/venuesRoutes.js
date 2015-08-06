@@ -5,15 +5,6 @@ var express = require('express'),
   Venue = require('../models/venues'),
   expressJoi = require('express-joi'),
   validateVenue = {
-<<<<<<< HEAD:Server/routes/venuesRoutes.js
-
-    name: expressJoi.Joi.types.String().min(5).max(30).required(),
-    size: expressJoi.Joi.types.Number().positive().required(),
-    price: expressJoi.Joi.types.Number().positive().required()
-  };
-router.patch('/feature/:id', expressJoi.joiValidate({feature: expressJoi.Joi.types.String().required()}), function (req, res) {
-
-=======
     capacity: expressJoi.Joi.types.Number().positive().required(),
     name: expressJoi.Joi.types.String().min(5).max(30).required(),
     size: expressJoi.Joi.types.Number().positive().required(),
@@ -21,7 +12,6 @@ router.patch('/feature/:id', expressJoi.joiValidate({feature: expressJoi.Joi.typ
   };
 
 router.patch('/feature/:id', function (req, res) {
->>>>>>> User:routes/venuesRoutes.js
   Venue
       .findByIdAndUpdate(req.path.substring(9),
       {$push: {features: {feature: req.body.feature, option: req.body.option}}},
@@ -31,10 +21,6 @@ router.patch('/feature/:id', function (req, res) {
           return res.status(404);
         }
         res.send(result);
-<<<<<<< HEAD:Server/routes/venuesRoutes.js
-
-=======
->>>>>>> User:routes/venuesRoutes.js
       });
 });
 
@@ -51,24 +37,6 @@ router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.ty
         res.send(result);
       });
 });
-<<<<<<< HEAD:Server/routes/venuesRoutes.js
-
-router.patch('/busyDate/:_id', expressJoi.joiValidate({busyDate : expressJoi.Joi.types.Date().required()}), function (req, res) {
-  console.log(req.path.substring(10));
-  Venue
-    .findByIdAndUpdate(req.path.substring(10),
-      {$push: {busyDate: req.body.busyDate}},
-      function (err, result) {
-        console.log(result);
-        if (err) {
-          console.error(err);
-          return res.status(404);
-        }
-        res.send(result);
-      });
-});
-=======
->>>>>>> User:routes/venuesRoutes.js
 
 
 router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
@@ -82,7 +50,6 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
     size: req.body.size || 0,
     price: req.body.size || 0,
     features: [],
-    busyDate: [],
     ratingAverage: 0,
     rating: []
   });
@@ -100,24 +67,16 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
 });
 
 router.get('/', function (req, res) {
-  Venue
-    .find(
-      req.query,
-      function (err, venues) {
-        if (err) {
-          return console.error(err);
-        }
-        console.log(req.params);
-        res.send(venues);
+  Venue.find(
+    req.query,
+    function (err, venues) {
+      if (err) {
+        return console.error(err);
       }
-<<<<<<< HEAD:Server/routes/venuesRoutes.js
-    );
-=======
       console.log(req.params);
       res.send(venues);
     }
   );
->>>>>>> User:routes/venuesRoutes.js
 });
 
 router.get('/:_id', function (req, res) {
@@ -125,11 +84,7 @@ router.get('/:_id', function (req, res) {
     .findOne({
       _id: req.params._id
     },
-<<<<<<< HEAD:Server/routes/venuesRoutes.js
-      function (err, user) {
-=======
       function (err, venueTemp) {
->>>>>>> User:routes/venuesRoutes.js
         if (err) {
           return console.error(err);
         }
@@ -149,11 +104,7 @@ router.delete('/:_id', function (req, res) {
   Venue.remove({
     _id: req.params._id
   },
-<<<<<<< HEAD:Server/routes/venuesRoutes.js
-    function (err, user) {
-=======
     function (err, venueTemp) {
->>>>>>> User:routes/venuesRoutes.js
       if (err) {
         return console.error(err);
       }
@@ -172,18 +123,6 @@ router.delete('/:_id', function (req, res) {
 });
 
 router.delete('/', function (req, res) {
-<<<<<<< HEAD:Server/routes/venuesRoutes.js
-  Venue
-    .remove(function (err) {
-      if (err) {
-        return console.error(err);
-      }
-      console.log(req.params);
-      res.send({
-        succes: true,
-        message: 'Everything was deleted'
-      });
-=======
   Venue.remove(function (err) {
     if (err) {
       return console.error(err);
@@ -192,26 +131,11 @@ router.delete('/', function (req, res) {
     res.send({
       succes: true,
       message: 'Everything was deleted'
->>>>>>> User:routes/venuesRoutes.js
     });
+  });
 });
 
 router.patch('/:_id', function (req, res) {
-<<<<<<< HEAD:Server/routes/venuesRoutes.js
-  Venue.update({
-    _id: req.params._id
-  },
-    function (err, user) {
-      if (err) {
-        return console.error(err);
-      }
-      if (user.result === 0) {
-        res.send({
-          success: true,
-          message: 'No user with that ID found'
-        });
-      } else {
-=======
   Venue
     .findByIdAndUpdate(req.path.substring(1),
       req.body,
@@ -219,18 +143,12 @@ router.patch('/:_id', function (req, res) {
         if (err) {
           return console.error(err);
         }
->>>>>>> User:routes/venuesRoutes.js
         res.send({
           success: true,
           message: 'Users with ID UPDATED: ' + req.params._id,
           updatedUser: venue
         });
-<<<<<<< HEAD:Server/routes/venuesRoutes.js
-      }
-    });
-=======
       });
->>>>>>> User:routes/venuesRoutes.js
 });
 
 module.exports = router;
