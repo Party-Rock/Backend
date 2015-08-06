@@ -6,16 +6,20 @@ var express = require('express'),
   app = express(),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
-  mongoURL = 'mongodb://localhost:27017/PartyRock', //esta madre es temporal, es para hacerlo localmente, después cambiamos la direccion
   router = express.Router(),
-  myRoutes = require('./routes/index');
+  myRoutes = require('./routes/index'),
+  fs = require('fs'),
+  configData = require('./config');
 
 app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
 
-var port = process.env.PORT || 8080; // set our port
+
+var port = process.env.PORT || 8080, // set our port
+  mongoURL = (configData.directory + configData.username + configData.password
+              + configData.portNum + configData.dbName);
 
 mongoose.connect(mongoURL);
 // ROUTES
@@ -30,4 +34,4 @@ myRoutes(app);
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-console.log('Hola ocioso, esta n puerto' + port);
+console.log('Server is running in port: ' + port + '\nUsing the mongoURL:' + mongoURL);
