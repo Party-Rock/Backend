@@ -84,17 +84,17 @@ router.get('/:_id', function (req, res) {
     .findOne({
       _id: req.params._id
     },
-      function (err, user) {
+      function (err, venueTemp) {
         if (err) {
           return console.error(err);
         }
-        if (user) {
-          res.send(user);
+        if (venueTemp) {
+          res.send(venueTemp);
         } else {
-          var userMessage = req.params._id + 'does not exists.';
+          var venueTempMessage = req.params._id + 'does not exists.';
           res.send({
             'status': '404 not found',
-            'message': userMessage
+            'message': venueTempMessage
           });
         }
       });
@@ -104,14 +104,14 @@ router.delete('/:_id', function (req, res) {
   Venue.remove({
     _id: req.params._id
   },
-    function (err, user) {
+    function (err, venueTemp) {
       if (err) {
         return console.error(err);
       }
-      if (user.result === 0) {
+      if (venueTemp.result === 0) {
         res.send({
           success: true,
-          message: 'No user with that ID found'
+          message: 'No venueTemp with that ID found'
         });
       } else {
         res.send({
@@ -136,25 +136,19 @@ router.delete('/', function (req, res) {
 });
 
 router.patch('/:_id', function (req, res) {
-  Venue.update({
-    _id: req.params._id
-  },
-    function (err, user) {
-      if (err) {
-        return console.error(err);
-      }
-      if (user.result === 0) {
+  Venue
+    .findByIdAndUpdate(req.path.substring(1),
+      req.body,
+      function (err, venue) {
+        if (err) {
+          return console.error(err);
+        }
         res.send({
           success: true,
-          message: 'No user with that ID found'
+          message: 'Users with ID UPDATED: ' + req.params._id,
+          updatedUser: venue
         });
-      } else {
-        res.send({
-          success: true,
-          message: 'Users with ID UPDATED: ' + req.params._id
-        });
-      }
-    });
+      });
 });
 
 module.exports = router;
