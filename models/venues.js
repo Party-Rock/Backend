@@ -12,7 +12,7 @@ var venueSchema = mongoose.Schema({
     imageURL: [String],
     size: Number,
     capacity: Number,
-    busyDate: [Date],
+    rentedDate: [Date],
     price: Number,
     features: [{feature: String, option: Boolean, _id : false }],
     ratingAverage: Number,

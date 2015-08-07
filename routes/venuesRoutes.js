@@ -29,7 +29,6 @@ router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.ty
     .findByIdAndUpdate(req.path.substring(7),
       {$push: {imageURL: req.body.imageURL}},
       function (err, result) {
-        console.log(result);
         if (err) {
           console.error(err);
           return res.status(404);
@@ -38,6 +37,19 @@ router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.ty
       });
 });
 
+router.patch('/rented/:_id', function (req, res) {
+  console.log(req.path.substring(8));
+  Venue
+    .findByIdAndUpdate(req.path.substring(8),
+      {$push: {rentedDate: req.body.rentedDate}},
+      function (err, result) {
+        if (err) {
+          console.error(err);
+          return res.status(404);
+        }
+        res.send(result);
+      });
+});
 
 router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
   var venue = new Venue({
@@ -67,16 +79,14 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
 });
 
 router.get('/', function (req, res) {
-  Venue.find(
-    req.query,
+  Venue.find({$or: [req.query]},
     function (err, venues) {
       if (err) {
         return console.error(err);
       }
       console.log(req.params);
       res.send(venues);
-    }
-  );
+    });
 });
 
 router.get('/:_id', function (req, res) {
