@@ -8,7 +8,7 @@ var express = require('express'),
     capacity: expressJoi.Joi.types.Number().positive().required(),
     name: expressJoi.Joi.types.String().min(5).max(30).required(),
     size: expressJoi.Joi.types.Number().positive().required(),
-    price: expressJoi.Joi.types.Number().positive().required(),
+    price: expressJoi.Joi.types.Number().positive().required()
   };
 
 router.patch('/feature/:id', function (req, res) {
