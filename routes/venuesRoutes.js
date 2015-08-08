@@ -5,10 +5,10 @@ var express = require('express'),
   Venue = require('../models/venues'),
   expressJoi = require('express-joi'),
   validateVenue = {
-    capacity: expressJoi.Joi.types.Number().positive().required(),
     name: expressJoi.Joi.types.String().min(5).max(30).required(),
     size: expressJoi.Joi.types.Number().positive().required(),
-    price: expressJoi.Joi.types.Number().positive().required(),
+    capacity: expressJoi.Joi.types.Number().positive().required(),
+    price: expressJoi.Joi.types.Number().positive().required()
   };
 
 router.patch('/feature/:id', function (req, res) {
@@ -29,7 +29,6 @@ router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.ty
     .findByIdAndUpdate(req.path.substring(7),
       {$push: {imageURL: req.body.imageURL}},
       function (err, result) {
-        console.log(result);
         if (err) {
           console.error(err);
           return res.status(404);
@@ -38,6 +37,19 @@ router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.ty
       });
 });
 
+router.patch('/rented/:_id', function (req, res) {
+  console.log(req.path.substring(8));
+  Venue
+    .findByIdAndUpdate(req.path.substring(8),
+      {$push: {rentedDate: req.body.rentedDate}},
+      function (err, result) {
+        if (err) {
+          console.error(err);
+          return res.status(404);
+        }
+        res.send(result);
+      });
+});
 
 router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
   var venue = new Venue({
@@ -47,8 +59,9 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
       long: req.body.long
     },
     imageURL: [],
+    capacity: req.body.capacity || 0,
     size: req.body.size || 0,
-    price: req.body.size || 0,
+    price: req.body.price || 0,
     features: [],
     ratingAverage: 0,
     rating: []
@@ -67,16 +80,16 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
 });
 
 router.get('/', function (req, res) {
-  Venue.find(
-    req.query,
+  Venue.find({$or: [req.query, {'size': {$lte: req.query.size || 0 }},
+    {'capacity': {$lte: req.query.capacity || 0}},
+      {'price': {$lte: req.query.price || 0 }}]},
     function (err, venues) {
       if (err) {
         return console.error(err);
       }
       console.log(req.params);
       res.send(venues);
-    }
-  );
+    });
 });
 
 router.get('/:_id', function (req, res) {
