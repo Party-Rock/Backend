@@ -5,9 +5,9 @@ var express = require('express'),
   Venue = require('../models/venues'),
   expressJoi = require('express-joi'),
   validateVenue = {
-    capacity: expressJoi.Joi.types.Number().positive().required(),
     name: expressJoi.Joi.types.String().min(5).max(30).required(),
     size: expressJoi.Joi.types.Number().positive().required(),
+    capacity: expressJoi.Joi.types.Number().positive().required(),
     price: expressJoi.Joi.types.Number().positive().required()
   };
 
@@ -59,8 +59,9 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
       long: req.body.long
     },
     imageURL: [],
+    capacity: req.body.capacity || 0,
     size: req.body.size || 0,
-    price: req.body.size || 0,
+    price: req.body.price || 0,
     features: [],
     ratingAverage: 0,
     rating: []
@@ -79,7 +80,9 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
 });
 
 router.get('/', function (req, res) {
-  Venue.find({$or: [req.query]},
+  Venue.find({$or: [req.query, {'size': {$lte: req.query.size || 0 }},
+    {'capacity': {$lte: req.query.capacity || 0}},
+      {'price': {$lte: req.query.price || 0 }}]},
     function (err, venues) {
       if (err) {
         return console.error(err);
