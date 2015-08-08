@@ -1,6 +1,6 @@
 /*jslint node: true, indent: 2,nomen:true */
 var mongoose = require('mongoose'),
-  ObjectId = mongoose.Schema.ObjectId;
+  ObjectId = mongoose.Schema.Types.ObjectId;
 
 var venueSchema = mongoose.Schema({
     name: String,
@@ -12,6 +12,7 @@ var venueSchema = mongoose.Schema({
     imageURL: [String],
     size: Number,
     capacity: Number,
+    rentedDate: [Date],
     price: Number,
     features: [{feature: String, option: Boolean, _id : false }],
     ratingAverage: Number,

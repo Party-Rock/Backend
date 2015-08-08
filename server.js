@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080, // set our port
   mongoURL = (configData.directory + configData.username + configData.password
-              + configData.portNum + configData.dbName);
+            + configData.direction  + configData.portNum + configData.dbName);
 
 mongoose.connect(mongoURL);
 // ROUTES
