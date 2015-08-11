@@ -5,10 +5,11 @@ var express = require('express'),
   Venue = require('../models/venues'),
   expressJoi = require('express-joi'),
   validateVenue = {
-    name: expressJoi.Joi.types.String().min(5).max(30).required(),
     size: expressJoi.Joi.types.Number().positive().required(),
+    name: expressJoi.Joi.types.String().min(5).max(30).required(),
     capacity: expressJoi.Joi.types.Number().positive().required(),
-    price: expressJoi.Joi.types.Number().positive().required()
+    price: expressJoi.Joi.types.Number().positive().required(),
+    descripcion: expressJoi.Joi.types.String().max(200)
   };
 
 router.patch('/feature/:id', function (req, res) {
@@ -59,6 +60,7 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
       long: req.body.long
     },
     imageURL: [],
+    description: req.body.description || '',
     capacity: req.body.capacity || 0,
     size: req.body.size || 0,
     price: req.body.price || 0,
