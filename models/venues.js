@@ -9,6 +9,7 @@ var venueSchema = mongoose.Schema({
       long: Number,
       colonia: String
     },
+    description: String,
     imageURL: [String],
     size: Number,
     capacity: Number,

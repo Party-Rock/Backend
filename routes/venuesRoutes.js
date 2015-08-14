@@ -5,10 +5,14 @@ var express = require('express'),
   Venue = require('../models/venues'),
   expressJoi = require('express-joi'),
   validateVenue = {
-    name: expressJoi.Joi.types.String().min(5).max(30).required(),
     size: expressJoi.Joi.types.Number().positive().required(),
+    name: expressJoi.Joi.types.String().min(5).max(30).required(),
     capacity: expressJoi.Joi.types.Number().positive().required(),
-    price: expressJoi.Joi.types.Number().positive().required()
+    price: expressJoi.Joi.types.Number().positive().required(),
+    description: expressJoi.Joi.types.String().max(200),
+    lat:  expressJoi.Joi.types.Number().required(),
+    long:  expressJoi.Joi.types.Number().required(),
+    colonia: expressJoi.Joi.types.String().min(5).max(30).required()
   };
 
 router.patch('/feature/:id', function (req, res) {
@@ -24,7 +28,8 @@ router.patch('/feature/:id', function (req, res) {
       });
 });
 
-router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.types.String().required()}), function (req, res) {
+router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.types.String().required(),
+  _id: expressJoi.Joi.types.String().regex(/^[0-9a-fA-F]{24}$/).required()}), function (req, res) {
   Venue
     .findByIdAndUpdate(req.path.substring(7),
       {$push: {imageURL: req.body.imageURL}},
@@ -56,9 +61,11 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
     name: req.body.name,
     position: {
       lat: req.body.lat,
-      long: req.body.long
+      long: req.body.long,
+      colonia: req.body.colonia
     },
     imageURL: [],
+    description: req.body.description || '',
     capacity: req.body.capacity || 0,
     size: req.body.size || 0,
     price: req.body.price || 0,
