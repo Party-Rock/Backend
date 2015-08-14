@@ -4,6 +4,7 @@
 // =============================================================================
 var express = require('express'),
   app = express(),
+  cors = require('cors'),
   bodyParser = require('body-parser'),
   mongoose = require('mongoose'),
   router = express.Router(),
@@ -14,6 +15,7 @@ var express = require('express'),
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(cors());
 app.use(bodyParser.json());
 
 

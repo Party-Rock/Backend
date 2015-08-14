@@ -30,7 +30,6 @@ router.patch('/feature/:id', function (req, res) {
 
 router.patch('/photo/:_id', expressJoi.joiValidate({imageURL : expressJoi.Joi.types.String().required(),
   _id: expressJoi.Joi.types.String().regex(/^[0-9a-fA-F]{24}$/).required()}), function (req, res) {
-  console.log(req.path.substring(7));
   Venue
     .findByIdAndUpdate(req.path.substring(7),
       {$push: {imageURL: req.body.imageURL}},
