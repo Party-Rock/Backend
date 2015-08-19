@@ -80,6 +80,7 @@
 
   * '/:_id'
     - Finds user with the id.
+
 ### PATCH
   * '/:_id'
     * Params Body: anything you want to update
@@ -90,7 +91,8 @@
     * Params Body:
       * fname: String, required. Min: 2 .Max 30.
       * lname: String, required. Min: 2 .Max 30.
-      * password: String, required. Min: 2 .Max 30.
+      * password: String, required. Length = 8.
+
 ### DELETE
   *  '/:_id'
     -Deletes user with said ID
