@@ -1,6 +1,6 @@
 # Backend
 
-# Models
+## Models
   * **Users:**
     * fname: String
     * lname: String
@@ -24,7 +24,7 @@
     * features: [{feature: String, option: Boolean, _id : false }]
     * ratingAverage: Number
     * rating: [{grade: Number, comment: String, userId: ObjectId}]
-* **Reservations**
+  * **Reservations**
     * userId: ObjectId
     * ownerId: ObjectId
     * venueId: ObjectId
@@ -32,9 +32,9 @@
 
 # Routes
 
-# *Venues*
+## *Venues*
 
-## GET
+### GET
 * '/'
   * Params Query: size, price or capacity
   * Returns everything that matches the query.
@@ -42,7 +42,7 @@
   * Params: none
   * Returns single item matching ID
 
-## PATCH
+### PATCH
 * '/:_id'
  * Params Body: Anything you wish to update.
 * '/feature/:_id'
@@ -57,7 +57,7 @@
   * Params Body: rentedDate
   * Adds a rented Date to the Venue.
 
-## POST
+### POST
   * Params Body:
       - name - String, required. Min: 5, Max 30 (Should change?)
       - lat - Number, required. Degrees
@@ -68,36 +68,37 @@
       - price Number, required. positive defaults to 0
       - capacity Number, required. positive defaults to 0
 
-## DELETE
+### DELETE
   *  '/:_id'
     -Deletes venue with said ID
 
 ## *Users*
-## GET
+### GET
   * '/'
     - Params Query: Any params the User model has.
     - Returns all users or finds users that match the query.
 
   * '/:_id'
     - Finds user with the id.
-## PATCH
+### PATCH
   * '/:_id'
     * Params Body: anything you want to update
     * Updates user with selected id
 
-## POST
+### POST
   * '/'
     * Params Body:
       * fname: String, required. Min: 2 .Max 30.
       * lname: String, required. Min: 2 .Max 30.
       * password: String, required. Min: 2 .Max 30.
-## DELETE
+### DELETE
   *  '/:_id'
     -Deletes user with said ID
 
 
 ## *Reservations*
-  ## GET
+  
+### GET
   * '/'
     - Params Query: Any params the User model has.
     - Returns all users or finds reservations that match the query.
@@ -105,18 +106,19 @@
   * '/:_id'
     - Finds user with the id.
 
-## PATCH
+### PATCH
   * '/:_id'
     * Params Body: anything you want to update
     * Updates reservation with selected id
 
-## POST
+### POST
   * '/'
     * Params Body:
      * userId   MongoDB Id
      * ownerId  MongoDB Id
      * venueId  MongoDB Id
      * rentedDate Date, required
-## DELETE
+### DELETE
   *  '/:_id'
     -Deletes reservation with said ID
+
