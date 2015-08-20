@@ -24,7 +24,8 @@
     * features: [{feature: String, option: Boolean, _id : false }]
     * ratingAverage: Number
     * rating: [{grade: Number, comment: String, userId: ObjectId}]
-* **Reservations**
+
+    * **Reservations**
     * userId: ObjectId
     * ownerId: ObjectId
     * venueId: ObjectId
