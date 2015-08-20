@@ -98,7 +98,7 @@ router.get('/colonia', function (req, res) {
 
 router.get('/', function (req, res) {
   Venue.find({$and: [req.query, {'size': {$lte: req.query.size || 9999 }},
-    {'capacity': {$lte: req.query.capacity || 9999}},
+    {'capacity': {$gte: req.query.capacity || 0}},
       {'price': {$lte: req.query.price || 99999 }}]},
     function (err, venues) {
       if (err) {
