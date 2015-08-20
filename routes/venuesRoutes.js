@@ -87,14 +87,15 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
 });
 
 
-router.get('/colonia', function (res) {
-  Venue.find().distinct('colonia', function (err, colonias) {
+router.get('/colonia', function (req, res) {
+  Venue.find().distinct('position.colonia', function (err, colonias) {
     if (err) {
       return console.error(err);
     }
     res.send(colonias);
   });
 });
+
 router.get('/', function (req, res) {
   Venue.find({$and: [req.query, {'size': {$lte: req.query.size || 9999 }},
     {'capacity': {$lte: req.query.capacity || 9999}},
