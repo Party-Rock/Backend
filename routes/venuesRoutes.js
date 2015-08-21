@@ -87,7 +87,7 @@ router.post('/', expressJoi.joiValidate(validateVenue), function (req, res) {
 });
 
 
-router.get('/colonia', function (req, res) {
+router.get('/colonia', function (res) {
   Venue.find().distinct('position.colonia', function (err, colonias) {
     if (err) {
       return console.error(err);
@@ -97,7 +97,7 @@ router.get('/colonia', function (req, res) {
 });
 
 router.get('/', function (req, res) {
-  Venue.find({$and: [req.query, {'size': {$lte: req.query.size || 9999 }},
+  Venue.find({$and: [{'size': {$lte: req.query.size || 9999 }},
     {'capacity': {$gte: req.query.capacity || 0}},
       {'price': {$lte: req.query.price || 99999 }}]},
     function (err, venues) {
